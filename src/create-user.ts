@@ -20,7 +20,7 @@ const createUser = (username: string, age: number, hobbies: string[]): User => {
   return newUser;
 };
 
-const user: User = createUser("Meru", 26, ["codding", "movie"]);
+// const user: User = createUser("Meru", 26, ["codding", "movie"]);
 
 // console.log(users);
 
