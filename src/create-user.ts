@@ -20,4 +20,15 @@ const createUser = (username: string, age: number, hobbies: string[]): User => {
   return newUser;
 };
 
-export { users, createUser };
+const user: User = createUser("Meru", 26, ["codding", "movie"]);
+
+// console.log(users);
+
+// [{
+//   id: 'b46d6276-6f4b-45c2-8ab1-4aafcb5e34a2',
+//   username: 'Meru',
+//   age: 26,
+//   hobbies: [ 'codding', 'movie' ]
+// }]
+
+export { User, users, createUser };

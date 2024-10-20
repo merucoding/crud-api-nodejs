@@ -1,6 +1,6 @@
 import http from "http";
 import dotenv from "dotenv";
-import { getUsers } from "./src/user-operations";
+import { getUsers, findUser } from "./src/user-operations";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -8,16 +8,19 @@ const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((request: http.IncomingMessage, response: http.ServerResponse) => {
   // const url = request.url;
-
+  // console.log(url);
+  
   const url = request.url?.split("/"); // [ '', 'api', 'users' ]
 
   if (request.method === "GET") {
     if (url?.length === 3) {
       getUsers(response);
+    } else if (url?.length === 4) {
+      findUser(url[3], response);
     }
   }
 
-  // console.log(url);
+
 });
 
 server.listen(PORT, () => {
