@@ -1,6 +1,6 @@
 import http from "http";
 import dotenv from "dotenv";
-import { getUsers, findUser, createNewUser, updateUser } from "./src/user-operations";
+import { getUsers, findUser, createNewUser, updateUser, deleteUser } from "./src/user-operations";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -26,9 +26,12 @@ const server = http.createServer((request: http.IncomingMessage, response: http.
       updateUser(url[3], request, response);
     }
   }
-
-}
-);
+  if (request.method === "DELETE") {
+    if (url?.length === 4) {
+      deleteUser(url[3], response);
+    }
+  }
+});
 
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);

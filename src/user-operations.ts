@@ -7,15 +7,26 @@ function findUserID(id: string): User | undefined {
   return users.find((user) => user.id === id);
 }
 
+const deleteUserByID = (id: string): boolean => {
+  const index = users.findIndex((user) => user.id === id);
+
+  if (index === -1) {
+    return false
+  } else {
+    users.splice(index, 1);
+    return true;
+  }
+};
+
 const parseRequestBody = async (request: http.IncomingMessage): Promise<any> => {
   return new Promise((resolve, reject) => {
-    let body = '';
+    let body = "";
 
-    request.on('data', chunk => {
+    request.on("data", (chunk) => {
       body += chunk;
     });
 
-    request.on('end', () => {
+    request.on("end", () => {
       try {
         resolve(JSON.parse(body));
       } catch (error) {
@@ -52,20 +63,20 @@ export const createNewUser = async (request: http.IncomingMessage, response: htt
     const data = await parseRequestBody(request);
 
     if (!validateUserData(data)) {
-      response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ message: 'Operation failed: please enter correct user data with fields: username, age, hobbies'}));
+      response.writeHead(400, { "Content-Type": "application/json" });
+      return response.end(JSON.stringify({ message: "Operation failed: please enter correct user data with fields: username, age, hobbies" }));
     }
 
     const { username, age, hobbies } = data;
     const newUser: User = createUser(username, age, hobbies);
 
-    response.writeHead(201, { 'Content-Type': 'application/json' });
+    response.writeHead(201, { "Content-Type": "application/json" });
     response.end(JSON.stringify(newUser));
   } catch {
-    response.writeHead(400, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify({ message: 'Invalid request' }));
+    response.writeHead(400, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Invalid request" }));
   }
-}
+};
 
 export const updateUser = async (id: string, request: http.IncomingMessage, response: http.ServerResponse) => {
   if (!uuidValidate(id)) {
@@ -84,17 +95,34 @@ export const updateUser = async (id: string, request: http.IncomingMessage, resp
     const data = await parseRequestBody(request);
 
     if (!validateUserData(data)) {
-      response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ message: 'Operation failed: please enter correct user data with fields: username, age, hobbies'}));
+      response.writeHead(400, { "Content-Type": "application/json" });
+      return response.end(JSON.stringify({ message: "Operation failed: please enter correct user data with fields: username, age, hobbies" }));
     }
 
     if (user !== undefined) {
       Object.assign(user, data);
-      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(user));
     }
   } catch {
-    response.writeHead(400, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify({ message: 'Invalid request' }));
+    response.writeHead(400, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Invalid request" }));
   }
-}
+};
+
+export const deleteUser = (id: string, response: http.ServerResponse) => {
+  if (!uuidValidate(id)) {
+    response.writeHead(400, { "Content-Type": "application/json" });
+    return response.end(JSON.stringify({ message: "Invalid User ID (uuid), please, try again" }));
+  }
+
+  const deleted = deleteUserByID(id);
+
+  if (!deleted) {
+    response.writeHead(404, { "Content-Type": "application/json" });
+    return response.end(JSON.stringify({ message: "User ID is not found, please, try again" }));
+  }
+
+  response.writeHead(204);
+  response.end();
+};
