@@ -1,6 +1,6 @@
 import http from "http";
 import dotenv from "dotenv";
-import { getUsers, findUser, createNewUser } from "./src/user-operations";
+import { getUsers, findUser, createNewUser, updateUser } from "./src/user-operations";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +21,12 @@ const server = http.createServer((request: http.IncomingMessage, response: http.
       createNewUser(request, response);
     }
   }
+  if (request.method === "PUT") {
+    if (url?.length === 4) {
+      updateUser(url[3], request, response);
+    }
+  }
+
 }
 );
 
