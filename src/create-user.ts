@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 interface User {
   id: string;
@@ -14,9 +14,10 @@ const createUser = (username: string, age: number, hobbies: string[]): User => {
     id: uuidv4(),
     username,
     age,
-    hobbies
+    hobbies,
   };
   users.push(newUser);
   return newUser;
 };
 
+export { users, createUser };
