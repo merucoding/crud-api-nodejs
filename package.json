@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "test": "jest",
     "start": "npx ts-node src/app.ts",
     "start:dev": "nodemon src/app.ts",
-    "start:prod": "tsc && webpack && node dist/bundle.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:prod": "tsc && webpack && node dist/bundle.js"
   },
   "author": "Meruert",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@types/jest": "^29.5.13",
     "@types/node": "^22.7.7",
+    "@types/supertest": "^6.0.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^9.13.0",
@@ -21,8 +23,11 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.3",
