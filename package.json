@@ -6,7 +6,8 @@
     "test": "jest",
     "start": "npx ts-node src/app.ts",
     "start:dev": "nodemon src/app.ts",
-    "start:prod": "tsc && webpack && node dist/bundle.js"
+    "start:prod": "tsc && webpack && node dist/bundle.js",
+    "start:multi": "npx ts-node ./src/cluster.ts"
   },
   "author": "Meruert",
   "license": "ISC",
