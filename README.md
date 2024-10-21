@@ -6,7 +6,7 @@
 
 ### usage:
 1. `npm run start:dev` - for dev mode or `npm run start:prod` - for prod mode
-2. `npm tun test` - run tests
+2. `npm run test` - run tests
 3. `npm run start:multi`
 
 
