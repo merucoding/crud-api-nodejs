@@ -12,6 +12,11 @@ export const server = http.createServer((request: http.IncomingMessage, response
   try {
     const url = request.url?.split("/"); // [ '', 'api', 'users' ]
 
+    if (url && url[1] !== 'api' && url[2] !== 'users') {
+      response.writeHead(400, { "Content-Type": "application/json" });
+      return response.end(JSON.stringify({ message: "Invalid request" }));
+    }
+
     const existMethods = ["GET", "POST", "PUT", "DELETE"];
   
     function isExistMethod(request: string) {
@@ -28,16 +33,25 @@ export const server = http.createServer((request: http.IncomingMessage, response
     if (request.method === "POST") {
       if (url?.length === 3) {
         createNewUser(request, response);
+      } else {
+        response.writeHead(400, { "Content-Type": "application/json" });
+        return response.end(JSON.stringify({ message: "Invalid request" }));
       }
     }
     if (request.method === "PUT") {
       if (url?.length === 4) {
         updateUser(url[3], request, response);
+      } else {
+        response.writeHead(400, { "Content-Type": "application/json" });
+        return response.end(JSON.stringify({ message: "Invalid request" }));
       }
     }
     if (request.method === "DELETE") {
       if (url?.length === 4) {
         deleteUser(url[3], response);
+      } else {
+        response.writeHead(400, { "Content-Type": "application/json" });
+        return response.end(JSON.stringify({ message: "Invalid request" }));
       }
     }
   
