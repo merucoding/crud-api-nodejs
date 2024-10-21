@@ -1,10 +1,12 @@
 import http from "http";
 import dotenv from "dotenv";
-import { getUsers, findUser, createNewUser, updateUser, deleteUser } from "./src/user-operations";
+import { createNewUser } from "./src/user-operations/create";
+import { getUsers, findUser } from "./src/user-operations/get";
+import { updateUser } from "./src/user-operations/update";
+import { deleteUser } from "./src/user-operations/delete";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-// console.log(process.env);
 
 const server = http.createServer((request: http.IncomingMessage, response: http.ServerResponse) => {
   const url = request.url?.split("/"); // [ '', 'api', 'users' ]
