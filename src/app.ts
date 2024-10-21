@@ -1,9 +1,9 @@
 import http from "http";
 import dotenv from "dotenv";
-import { createNewUser } from "./src/user-operations/create";
-import { getUsers, findUser } from "./src/user-operations/get";
-import { updateUser } from "./src/user-operations/update";
-import { deleteUser } from "./src/user-operations/delete";
+import { createNewUser } from "./user-operations/create";
+import { getUsers, findUser } from "./user-operations/get";
+import { updateUser } from "./user-operations/update";
+import { deleteUser } from "./user-operations/delete";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -42,7 +42,7 @@ const server = http.createServer((request: http.IncomingMessage, response: http.
 
   if (request.method && !isExistMethod(request.method)) {
     response.writeHead(404, { "Content-Type": "application/json" });
-    response.end(JSON.stringify({ message: "Oops.. your request doesn't exist or not supported, try again" }));
+    response.end(JSON.stringify({ message: "Oops.. your request doesn't exist or not supported, try again!" }));
   }
 });
 
