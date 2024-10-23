@@ -1,12 +1,8 @@
 import http from "http";
-import dotenv from "dotenv";
 import { createNewUser } from "./user-operations/create";
 import { getUsers, findUser } from "./user-operations/get";
 import { updateUser } from "./user-operations/update";
 import { deleteUser } from "./user-operations/delete";
-
-dotenv.config();
-const PORT = process.env.PORT || 3000;
 
 export const server = http.createServer((request: http.IncomingMessage, response: http.ServerResponse) => {
   try {
@@ -65,6 +61,4 @@ export const server = http.createServer((request: http.IncomingMessage, response
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-});
+

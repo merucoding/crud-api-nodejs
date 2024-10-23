@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './dist/app.js',
+  entry: './dist/server.js',
   target: 'node',
   output: {
     filename: 'bundle.js',
