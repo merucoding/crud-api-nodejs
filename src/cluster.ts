@@ -4,6 +4,7 @@ import process from "process";
 import http from "http";
 import { server } from "./app";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
@@ -31,9 +32,12 @@ if (cluster.isPrimary) {
       console.log("Starting another worker");
       cluster.fork();
     });
-  }
 
-  // console.log(workers);
+    process.on("SIGINT", () => {
+      fs.writeFileSync("src/user-operations/users.json", JSON.stringify({}), "utf8");
+      process.exit(0);
+    })
+  }
 
   const masterServer = http.createServer((request: http.IncomingMessage, response: http.ServerResponse) => {
     const workerIndex = count % workers.length;
@@ -47,10 +51,11 @@ if (cluster.isPrimary) {
       headers: request.headers,
     };
 
+    console.log(`Перенаправление ${request.method} ${request.url} на воркер ${worker.port}`);
+
     const proxyRequest = http.request(options, (workerResponse) => {
       workerResponse.pipe(response, { end: true });
     });
-
     request.pipe(proxyRequest, { end: true });
     count++;
   });

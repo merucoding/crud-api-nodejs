@@ -1,6 +1,6 @@
 import http from "http";
 import { validate as uuidValidate } from "uuid";
-import { users } from "./create";
+import { users, writeUsers } from "./create";
 
 const deleteUserByID = (id: string): boolean => {
   const index = users.findIndex((user) => user.id === id);
@@ -20,6 +20,7 @@ export const deleteUser = (id: string, response: http.ServerResponse) => {
   }
 
   const deleted = deleteUserByID(id);
+  writeUsers(users);
 
   if (!deleted) {
     response.writeHead(404, { "Content-Type": "application/json" });

@@ -8,7 +8,7 @@ export const server = http.createServer((request: http.IncomingMessage, response
   try {
     const url = request.url?.split("/"); // [ '', 'api', 'users' ]
 
-    if (url && url[1] !== 'api' && url[2] !== 'users') {
+    if (url && (url[1] !== "api" || url[2] !== "users")) {
       response.writeHead(400, { "Content-Type": "application/json" });
       return response.end(JSON.stringify({ message: "Invalid request" }));
     }

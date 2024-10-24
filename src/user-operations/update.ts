@@ -3,6 +3,7 @@ import { validate as uuidValidate } from "uuid";
 import { validateUserData } from "./validate";
 import { findUserID } from "./get";
 import { parseRequestBody } from "./create";
+import { users, writeUsers } from "./create";
 
 export const updateUser = async (id: string, request: http.IncomingMessage, response: http.ServerResponse) => {
   if (!uuidValidate(id)) {
@@ -27,6 +28,7 @@ export const updateUser = async (id: string, request: http.IncomingMessage, resp
 
     if (user !== undefined) {
       Object.assign(user, data);
+      writeUsers(users);
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(user));
     }

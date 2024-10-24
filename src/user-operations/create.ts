@@ -1,6 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import http from "http";
 import { validateUserData } from "./validate";
+import fs from "fs";
+
+const jsonPath = "src/user-operations/users.json";
 
 interface User {
   id: string;
@@ -9,7 +12,25 @@ interface User {
   hobbies: string[];
 }
 
-const users: User[] = [];
+let users: User[];
+
+const readUsers = () => {
+  const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+  users = data.users || [];
+};
+
+readUsers();
+
+const writeUsers = (users: User[]) => {
+  const data = { users };
+  fs.writeFileSync(jsonPath, JSON.stringify(data), "utf8");
+};
+
+fs.watch(jsonPath, (eventType, filename) => {
+  if (eventType === "change") {
+    readUsers();
+  }
+});
 
 const createUser = (username: string, age: number, hobbies: string[]): User => {
   const newUser: User = {
@@ -19,6 +40,7 @@ const createUser = (username: string, age: number, hobbies: string[]): User => {
     hobbies,
   };
   users.push(newUser);
+  writeUsers(users);
   return newUser;
 };
 
@@ -60,4 +82,4 @@ export const createNewUser = async (request: http.IncomingMessage, response: htt
   }
 };
 
-export { User, users, createUser };
+export { User, users, createUser, writeUsers };
